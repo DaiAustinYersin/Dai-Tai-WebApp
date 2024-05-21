@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <span class="title"><h1>{% block title %} Nhân viên {% endblock %}</h1></span>
-    <div class="content">
-        <h2>Quản lý nhân viên</h2>
+    <span class="title"><h1>{% block title %} Quản lý nhân viên {% endblock %}</h1></span>
+    <form action="/employees" method="post">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="name" class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="col mb-3">
+                <label for="start_date" class="form-label">Ngày bắt đầu</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="col mb-3">
+                <label for="end_date" class="form-label">Ngày kết thúc</label>
+                <input type="date" class="form-control" id="end_date" name="end_date">
+            </div>
+            <div class="col mb-3">
+                <label for="salary" class="form-label">Lương</label>
+                <input type="number" class="form-control" id="salary" name="salary" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
+    <hr>
+    <div class="content pt-3">
+        <h3>Danh sách nhân viên</h3>
+        <form action="/employees/search" method="post">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="keywords" class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" id="keywords" name="keywords" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
         <table class="table">
             <thead>
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">Mã nhân viên</th>
                 <th scope="col">Họ tên</th>
                 <th scope="col">Ngày bắt đầu</th>
@@ -17,6 +49,14 @@
             <tbody>
             {% for employee in employees %}
                 <tr>
+                    <td>
+                        <a href="/employees/update/{{ employee.id }}">
+                            <div class="badge bg-warning text-dark">Update</div>
+                        </a>
+                        <a href="/employees/delete/{{ employee.id }}">
+                            <div class="badge bg-danger">Delete</div>
+                        </a>
+                    </td>
                     <th scope="row">{{ employee.id }}</th>
                     <td>{{ employee.name }}</td>
                     <td>{{ employee.start_date }}</td>
