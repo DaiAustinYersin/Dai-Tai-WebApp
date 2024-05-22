@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <span class="title"><h1>{% block title %} Cập nhật khách hàng {% endblock %}</h1></span>
+    <form action="/customers/update/{{ customer.id }}" method="post">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="id" class="form-label">Mã khách hàng</label>
+                <input type="text" class="form-control" id="id" name="id" value="{{ customer.id }}" disabled>
+            </div>
+            <div class="col mb-3">
+                <label for="name" class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ customer.name }}" required>
+            </div>
+            <div class="col mb-3">
+                <label for="birth_date" class="form-label">Ngày bắt đầu</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ customer.birth_date }}" required>
+            </div>
+            <div class="col mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ customer.email }}">
+            </div>
+            <div class="col mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ customer.address }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning text-light">Cập nhật</button>
+    </form>
+{% endblock %}
