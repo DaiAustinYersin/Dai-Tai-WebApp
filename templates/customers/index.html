@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <span class="title"><h1>{% block title %} Khách hàng {% endblock %}</h1></span>
-    <div class="content">
-        <h2>Quản lý khách hàng</h2>
+    <span class="title"><h1>{% block title %} Quản lý khách hàng {% endblock %}</h1></span>
+    <form action="/customers" method="post">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="name" class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="col mb-3">
+                <label for="birth_date" class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date">
+            </div>
+            <div class="col mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="col mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
+    <hr>
+    <div class="content pt-3">
+        <h3>Danh sách khách hàng</h3>
+        <form action="/customers/search" method="post">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="keywords" class="form-label">Từ khóa</label>
+                    <input type="text" class="form-control" id="keywords" name="keywords">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
         <table class="table">
             <thead>
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">Mã khách hàng</th>
                 <th scope="col">Họ tên</th>
                 <th scope="col">Ngày sinh</th>
@@ -17,6 +49,14 @@
             <tbody>
             {% for customer in customers %}
                 <tr>
+                    <td>
+                        <a href="/customers/update/{{ customer.id }}">
+                            <div class="badge bg-warning text-dark">Update</div>
+                        </a>
+                        <a href="/customers/delete/{{ customer.id }}">
+                            <div class="badge bg-danger">Delete</div>
+                        </a>
+                    </td>
                     <th scope="row">{{ customer.id }}</th>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.birth_date }}</td>
