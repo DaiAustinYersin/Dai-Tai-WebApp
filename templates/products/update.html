@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <span class="title"><h1>{% block title %} Cập nhật sản phẩm {% endblock %}</h1></span>
+    <form action="/products/update/{{ product.id }}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="id" class="form-label">Mã sản phẩm</label>
+                <input type="text" class="form-control" id="id" name="id" value="{{ product.id }}" disabled>
+            </div>
+            <div class="col mb-3">
+                <label for="name" class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ product.name }}" required>
+            </div>
+            <div class="col mb-3">
+                <label for="price" class="form-label">Giá</label>
+                <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required>
+            </div>
+            <div class="col mb-3">
+                <label for="url_img" class="form-label">Ảnh</label>
+                <input type="file" class="form-control" id="url_img" name="url_img" accept="image/*" onchange="showImage(event)">
+            </div>
+            <div class="col mb-3">
+                <img id="img_preview" src="{{ product.url_img }}" alt="Image Preview" style="max-width:100%; height:auto;"/>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning text-light">Cập nhật</button>
+    </form>
+    <script>
+        function showImage(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+            const imgPreview = document.getElementById('img_preview');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+{% endblock %}
