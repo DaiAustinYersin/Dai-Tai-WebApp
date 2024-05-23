@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <span class="title"><h1>{% block title %} Xem hóa đơn {% endblock %}</h1></span>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="id" class="form-label">Mã hóa đơn</label>
+            <input type="text" class="form-control" id="id" value="{{ invoice.id }}" readonly>
+        </div>
+        <div class="col mb-3">
+            <label for="customer" class="form-label">Khách hàng</label>
+            <input type="text" class="form-control" id="customer" value="{{ invoice.customer }}" readonly>
+        </div>
+        <div class="col mb-3">
+            <label for="total_price" class="form-label">Tổng tiền</label>
+            <input type="number" class="form-control" id="total_price" value="{{ invoice.total_price }}" readonly>
+        </div>
+    </div>
+    <h2>Danh sách mua hàng</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ảnh</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Thành tiền</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for detail in invoice_details %}
+            <tr>
+                <td><img style="width: 200px" src="{{ detail.url_img }}" alt="{{ detail.name }}"></td>
+                <td>{{ detail.name }}</td>
+                <th scope="row">{{ detail.quantity }}</th>
+                <td>{{ detail.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" role="button" href="/invoices">Quay lại</a>
+{% endblock %}
