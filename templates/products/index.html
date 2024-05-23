@@ -1,8 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <span class="title"><h1>{% block title %} Sản phẩm {% endblock %}</h1></span>
-    <div class="content">
-        <h2>Quản lý sản phẩm</h2>
+    <span class="title"><h1>{% block title %} Quản lý sản phẩm {% endblock %}</h1></span>
+    <form action="/products" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="name" class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="col mb-3">
+                <label for="price" class="form-label">Giá</label>
+                <input type="number" class="form-control" id="price" name="price" value="0" required>
+            </div>
+            <div class="col mb-3">
+                <label for="url_img" class="form-label">Ảnh</label>
+                <input type="file" class="form-control" id="url_img" name="url_img" accept="image/*" onchange="showImage(event)">
+            </div>
+            <div class="col mb-3">
+                <img id="img_preview" src="" alt="Image Preview" style="display:none; max-width:100%; height:auto;"/>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
+    <div class="content pt-3">
+        <h3>Danh sách sản phẩm</h3>
+        <form action="/products/search" method="post">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="keywords" class="form-label">Từ khóa</label>
+                    <input type="text" class="form-control" id="keywords" name="keywords">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Mã sản phẩm</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Ảnh</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>
+                        <a href="/products/update/{{ product.id }}">
+                            <div class="badge bg-warning text-dark">Update</div>
+                        </a>
+                        <a href="/products/delete/{{ product.id }}">
+                            <div class="badge bg-danger">Delete</div>
+                        </a>
+                    </td>
+                    <th scope="row">{{ product.id }}</th>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td><img style="width: 200px" src="{{ product.url_img }}" alt="{{ product.name }}"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    <script>
+        function showImage(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+            const imgPreview = document.getElementById('img_preview');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 {% endblock %}
